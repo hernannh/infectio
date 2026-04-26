@@ -62,14 +62,14 @@ impl FileAnalyzer for PDFAnalyzer {
 
                         // Go over the array where every two elements are a name and a reference
                         for i in (0..names.len()).step_by(2) {
-                            let name = names[i].as_string().unwrap();
+                            let name = names[i].as_str().unwrap();
                             let reference = names[i + 1].as_reference().unwrap();
 
                             log::info!("Embedded file: {:?}: {:?}", name, reference);
 
                             let file_spec = doc.get_object(reference).unwrap().as_dict().unwrap();
 
-                            let file_name = file_spec.get(b"F").unwrap().as_string().unwrap();
+                            let file_name = file_spec.get(b"F").unwrap().as_str().unwrap();
                             let file_reference = file_spec
                                 .get(b"EF")
                                 .unwrap()
@@ -89,7 +89,7 @@ impl FileAnalyzer for PDFAnalyzer {
                                 .add_heuristic("Contains embedded file", &Severity::High.as_str());
 
                             report.add_item(Item {
-                                name: file_name.to_string(),
+                                name: String::from_utf8_lossy(file_name).into_owned(),
                                 data: file_data,
                                 item_type: "file".to_string(),
                                 size: length as u64,
