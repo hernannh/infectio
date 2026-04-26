@@ -1,0 +1,27 @@
+.git
+.gitignore
+.github
+.vscode
+.idea
+
+# Node
+**/node_modules
+**/npm-debug.log
+**/yarn-error.log
+
+# Rust / wasm-pack
+**/target
+**/pkg
+infectiowasm/Cargo.lock.bak
+
+# Build artifacts
+**/dist
+**/build
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Docker (avoid recursive copy)
+Dockerfile
+.dockerignore

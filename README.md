@@ -232,6 +232,17 @@ npm start
 
 Your browser will open to `http://localhost:8080` automatically.
 
+### Run with Docker
+
+Prefer a single command? The repo ships a multi-stage Dockerfile that builds the WASM module, bundles the web app, and serves it from nginx — no Rust or Node toolchain required on the host.
+
+```bash
+docker build -t infectio .
+docker run --rm -p 8080:80 infectio
+```
+
+Then open `http://localhost:8080`.
+
 ### Development Setup
 
 For faster iteration during development:
@@ -268,6 +279,7 @@ The `web/dist` folder contains a static website that can be deployed to:
 - **Netlify**: Drag and drop `dist` folder or connect repository
 - **Vercel**: Import repository with build command `npm run build`
 - **AWS S3**: Upload to S3 bucket with static hosting enabled
+- **Docker**: Build the included `Dockerfile` and run anywhere with `docker run -p 8080:80 infectio`
 - **Any Static Host**: Upload contents of `dist` folder
 
 ## Usage
