@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Table as RVTable,
-  TableProps as RVTableProps,
   Column,
   AutoSizer,
   TableCellRenderer,
@@ -42,23 +41,21 @@ const Table = <T extends Record<string, any>>({
       : data;
 
   return (
-    <>
+    <div className="w-full overflow-hidden rounded-lg border border-border bg-card shadow-sm">
       {search && (
-        <div className="relative w-full">
-          <FaSearch className="absolute left-3 top-3 text-gray-500" />
+        <div className="relative w-full border-b border-border">
+          <FaSearch className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
           <input
             type="text"
             placeholder={`Search in ${data.length} records...`}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 w-full pr-4 py-2 border border-gray-300 rounded-tl-lg rounded-tr-lg  shadow focus:outline-none"
+            className="w-full bg-transparent py-2.5 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
           />
         </div>
       )}
       <div
-        className={`w-full border border-gray-300 rounded-bl-lg rounded-br-lg shadow-lg overflow-hidden ${
-          !search && "rounded-t-lg"
-        }`}
+        className="w-full"
         style={{
           height: Math.min(filteredData.length, 5) * 40 + 50,
         }}
@@ -72,9 +69,11 @@ const Table = <T extends Record<string, any>>({
               rowHeight={40}
               rowCount={filteredData.length}
               rowGetter={({ index }) => filteredData[index]}
-              headerClassName="normal-case"
+              headerClassName="text-xs font-medium uppercase tracking-wide text-muted-foreground"
               rowClassName={({ index }) =>
-                index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                `border-b border-border/60 text-sm text-foreground transition-colors hover:bg-accent/50 ${
+                  index % 2 === 0 ? "bg-card" : "bg-muted/30"
+                }`
               }
               onRowClick={({ rowData }) => onRowClick && onRowClick(rowData)}
             >
@@ -91,7 +90,7 @@ const Table = <T extends Record<string, any>>({
           )}
         </AutoSizer>
       </div>
-    </>
+    </div>
   );
 };
 

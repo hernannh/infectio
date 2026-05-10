@@ -55,3 +55,13 @@ body {
   padding: 0;
   font-family: "Roboto", sans-serif;
 }
+
+@layer components {
+  .ReactVirtualized__Table__headerRow {
+    @apply border-b border-border bg-muted/60;
+    text-transform: none;
+  }
+  .ReactVirtualized__Table__headerColumn {
+    @apply outline-none;
+  }
+}
