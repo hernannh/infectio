@@ -20,6 +20,7 @@ import useDragAndDrop from "../hooks/useDragAndDrop";
 import { FaSpinner, FaUpload } from "react-icons/fa";
 import Heuristics from "../components/Heuristics";
 import Modal from "../components/Modal";
+import ExportButton from "../components/ExportButton";
 
 const HomePage = () => {
   const [selectedFile, setSelectedFile] = useState<number>(0);
@@ -315,6 +316,13 @@ const HomePage = () => {
                       </option>
                     ))}
                   </select>
+                )}
+                {file && reports[selectedFile] && (
+                  <ExportButton
+                    report={reports[selectedFile]}
+                    fileName={file.name}
+                    disabled={!analysisComplete}
+                  />
                 )}
                 <button
                   className="flex items-center space-x-2 text-blue-500"
