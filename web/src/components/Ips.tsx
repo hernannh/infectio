@@ -28,9 +28,9 @@ const Ips: React.FC<IpsProps> = ({ ips }) => {
           href={value.cellData}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center"
+          className="inline-flex items-center gap-2 text-primary hover:underline"
         >
-          {value.cellData} <FaExternalLinkAlt className="ml-2" />
+          {value.cellData} <FaExternalLinkAlt size={12} />
         </a>
       ),
     },
