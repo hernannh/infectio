@@ -58,7 +58,6 @@ const buildTree = (items: Item[]): TreeNode[] => {
     if (pathParts.length > 0) {
       addToTree(childNode.children, pathParts, item);
     } else if (item.item_type === "file") {
-      // Add file data when it's a file
       childNode.data = item.data;
     }
   };
@@ -70,6 +69,9 @@ const buildTree = (items: Item[]): TreeNode[] => {
 
   return root;
 };
+
+const iconButtonClass =
+  "inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring";
 
 const FolderTree: React.FC<FolderTreeProps> = ({
   items,
@@ -96,50 +98,54 @@ const FolderTree: React.FC<FolderTreeProps> = ({
   };
 
   const renderTree = (nodes: TreeNode[], parentPath = "") => {
-    return nodes.map((node, index) => {
+    return nodes.map((node) => {
       const currentPath = `${parentPath}/${node.name}`;
 
       return (
         <div
           key={currentPath}
-          className={`${parentPath != "" && "pl-4"} w-full`}
+          className={`w-full ${parentPath != "" ? "pl-4" : ""}`}
         >
           {node.isDirectory ? (
             <div className="w-full">
-              <div
-                className="cursor-pointer flex items-center justify-between w-full rounded-lg border border-gray-200 bg-white p-2"
+              <button
+                type="button"
+                className="flex w-full items-center justify-between rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                 onClick={() => toggleNode(currentPath)}
               >
-                <div className="flex items-center">
-                  <span className="mr-2">
-                    {expanded[currentPath] ? <FaFolderOpen /> : <FaFolder />}
-                  </span>
-                  {node.name}/
-                </div>
-                <span>
-                  {expanded[currentPath] ? <FaChevronUp /> : <FaChevronDown />}
+                <span className="flex items-center gap-2">
+                  {expanded[currentPath] ? (
+                    <FaFolderOpen className="text-muted-foreground" />
+                  ) : (
+                    <FaFolder className="text-muted-foreground" />
+                  )}
+                  <span className="font-medium">{node.name}/</span>
                 </span>
-              </div>
+                {expanded[currentPath] ? (
+                  <FaChevronUp className="text-muted-foreground" size={12} />
+                ) : (
+                  <FaChevronDown className="text-muted-foreground" size={12} />
+                )}
+              </button>
               {expanded[currentPath] && (
-                <div className="pl-4">
+                <div className="mt-1 space-y-1 pl-4">
                   {renderTree(node.children, currentPath)}
                 </div>
               )}
             </div>
           ) : (
-            <div className="flex items-center w-full rounded-lg border border-gray-200 bg-white p-2">
-              <span className="mr-2">
-                <FaFileAlt />
-              </span>
-              {node.name}{" "}
-              <span className="ml-2 text-xs text-gray-500">
+            <div className="flex w-full items-center rounded-md border border-border bg-background px-3 py-2 text-sm transition-colors hover:bg-accent/40">
+              <FaFileAlt className="mr-2 text-muted-foreground" />
+              <span className="text-foreground">{node.name}</span>
+              <span className="ml-2 text-xs text-muted-foreground">
                 ({formatFileSize(node.size)})
               </span>
               {node.data && !node.encrypted && (
-                <div className="ml-auto flex items-center">
+                <div className="ml-auto flex items-center gap-1">
                   {onShowEntropy && (
                     <button
-                      className="text-blue-500 hover:text-blue-700 mr-2"
+                      type="button"
+                      className={iconButtonClass}
                       onClick={() => {
                         let file = new File(
                           [new Uint8Array(node.data!)],
@@ -148,13 +154,15 @@ const FolderTree: React.FC<FolderTreeProps> = ({
                         onShowEntropy(file);
                       }}
                       title="Show entropy"
+                      aria-label="Show entropy"
                     >
                       <FaChartBar />
                     </button>
                   )}
                   {onScanFile && (
                     <button
-                      className="text-blue-500 hover:text-blue-700 mr-2"
+                      type="button"
+                      className={iconButtonClass}
                       onClick={() => {
                         let file = new File(
                           [new Uint8Array(node.data!)],
@@ -163,13 +171,16 @@ const FolderTree: React.FC<FolderTreeProps> = ({
                         onScanFile(file);
                       }}
                       title="Scan file"
+                      aria-label="Scan file"
                     >
                       <FaExternalLinkAlt />
                     </button>
                   )}
                   <button
+                    type="button"
                     title="Download file"
-                    className="text-blue-500 hover:text-blue-700"
+                    aria-label="Download file"
+                    className={iconButtonClass}
                     onClick={() => downloadFile(node.name, node.data!)}
                   >
                     <FaDownload />
@@ -177,9 +188,9 @@ const FolderTree: React.FC<FolderTreeProps> = ({
                 </div>
               )}
               {node.encrypted && (
-                <div className="ml-auto flex items-center">
-                  <span className="text-xs text-red-500">Encrypted</span>
-                  <FaLock className="text-red-500 ml-1" />
+                <div className="ml-auto flex items-center gap-1 text-destructive">
+                  <span className="text-xs font-medium">Encrypted</span>
+                  <FaLock />
                 </div>
               )}
             </div>
@@ -196,7 +207,7 @@ const FolderTree: React.FC<FolderTreeProps> = ({
   const tree = buildTree(items);
 
   return (
-    <div className="bg-white p-4 rounded-lg border border-gray-300 w-full">
+    <div className="w-full space-y-1 rounded-lg border border-border bg-card p-3 shadow-sm">
       {renderTree(tree)}
     </div>
   );
