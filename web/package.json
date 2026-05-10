@@ -65,7 +65,7 @@
     "chart.js": "^4.4.4",
     "dygraphs": "^2.2.1",
     "jszip": "^3.10.1",
-    "magika": "^0.2.13",
+    "magika": "^1.0.0",
     "papaparse": "^5.5.3",
     "react": "~19.1",
     "react-chartjs-2": "^5.3.1",

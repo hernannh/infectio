@@ -84,7 +84,7 @@ const FolderTree: React.FC<FolderTreeProps> = ({
 
   const downloadFile = (fileName: string, data: Uint8Array) => {
     data = new Uint8Array(data);
-    const blob = new Blob([data], { type: "application/octet-stream" });
+    const blob = new Blob([data as BlobPart], { type: "application/octet-stream" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;

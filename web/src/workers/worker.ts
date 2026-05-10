@@ -29,8 +29,7 @@ import init, {
 } from "infectio-wasm";
 import { Magika } from "magika";
 
-const magika = new Magika();
-
+let magika: Magika;
 let initialized = false;
 
 /**
@@ -64,7 +63,7 @@ onmessage = async (e: MessageEvent<AnalyzeFileMessage>) => {
 
   if (!initialized) {
     await init();
-    await magika.load();
+    magika = await Magika.create();
     initialized = true;
   }
 
@@ -91,7 +90,7 @@ onmessage = async (e: MessageEvent<AnalyzeFileMessage>) => {
       });
 
       magika.identifyBytes(fileData).then((result) => {
-        const contentType = getContentType(result.label);
+        const contentType = getContentType(result.prediction.output.label);
 
         if (contentType.mime_type != file.type) {
           postMessage({
