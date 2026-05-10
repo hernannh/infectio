@@ -19,6 +19,10 @@
 
 ---
 
+> **Fork notice:** This repository is a fork of [filippofinke/infectio](https://github.com/filippofinke/infectio) by Filippo Finke. Upstream development appears inactive (last commit October 2025), so this fork continues maintenance and adds further improvements. All credit for the original design and implementation goes to the original author. Licensed under MIT.
+
+---
+
 ## Overview
 
 **Infectio** is a powerful, privacy-focused static malware analysis tool that runs entirely in your browser using WebAssembly.
@@ -28,7 +32,7 @@
 - **100% Privacy**: All analysis happens locally in your browser
 - **Multi-Format**: Supports PE, ELF, Mach-O, PDF, ZIP, Office documents, and more
 - **AI-Powered**: Optional local LLM integration for intelligent analysis
-- **No Installation Required**: Try it instantly at [https://infectio.filippofinke.ch/](https://infectio.filippofinke.ch/)
+- **No Installation Required**: Try it instantly at [https://infectio.filippofinke.ch/](https://infectio.filippofinke.ch/) (original author's hosted demo)
 
 ## Features
 
@@ -72,7 +76,7 @@
 
 ## Demo
 
-**Try it now:** [https://infectio.filippofinke.ch/](https://infectio.filippofinke.ch/)
+**Try it now:** [https://infectio.filippofinke.ch/](https://infectio.filippofinke.ch/) — original author's hosted demo.
 
 Experience Infectio directly in your browser, upload any file and see the analysis in action.
 
