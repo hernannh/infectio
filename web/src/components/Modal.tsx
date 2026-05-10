@@ -1,5 +1,5 @@
 import React from "react";
-import { FaTimes } from "react-icons/fa";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 interface ModalProps {
   open: boolean;
@@ -7,22 +7,10 @@ interface ModalProps {
   onClose: () => void;
 }
 
-const Modal = ({ open, children, onClose }: ModalProps) => {
-  if (!open) return null;
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg shadow-lg max-w-5xl w-full p-6 relative">
-        <button
-          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-          onClick={onClose}
-        >
-          <FaTimes />
-        </button>
-        {children}
-      </div>
-    </div>
-  );
-};
+const Modal = ({ open, children, onClose }: ModalProps) => (
+  <Dialog open={open} onOpenChange={(next) => !next && onClose()}>
+    <DialogContent>{children}</DialogContent>
+  </Dialog>
+);
 
 export default Modal;

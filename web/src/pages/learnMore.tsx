@@ -44,7 +44,7 @@ const LearnMorePage = () => {
         <Logo />
         <div className="flex items-center space-x-4">
           <a
-            href="https://github.com/filippofinke/infectio"
+            href="https://github.com/hernannh/infectio"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-700 hover:text-blue-500 transition-colors"

@@ -21,6 +21,12 @@ import { FaSpinner, FaUpload } from "react-icons/fa";
 import Heuristics from "../components/Heuristics";
 import Modal from "../components/Modal";
 import ExportButton from "../components/ExportButton";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 const HomePage = () => {
   const [selectedFile, setSelectedFile] = useState<number>(0);
@@ -367,35 +373,39 @@ const HomePage = () => {
           )}
 
           {!analysisComplete && file && (
-            <div className="w-full bg-white rounded-lg p-4 border border-gray-300">
-              <h3 className="text-lg font-semibold mb-3">Analysis Status</h3>
-              <ul className="space-y-2">
-                <li className="flex items-center justify-between">
-                  <span>Entropy Calculation</span>
-                  {renderStatusIcon(status.entropy)}
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>Entropy by Chunks</span>
-                  {renderStatusIcon(status.entropies)}
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>File Analysis Report</span>
-                  {renderStatusIcon(status.report)}
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>String Extraction</span>
-                  {renderStatusIcon(status.strings)}
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>IP Extraction</span>
-                  {renderStatusIcon(status.ips)}
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>URL Extraction</span>
-                  {renderStatusIcon(status.urls)}
-                </li>
-              </ul>
-            </div>
+            <Card className="w-full">
+              <CardHeader className="pb-3">
+                <CardTitle>Analysis Status</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2">
+                  <li className="flex items-center justify-between">
+                    <span>Entropy Calculation</span>
+                    {renderStatusIcon(status.entropy)}
+                  </li>
+                  <li className="flex items-center justify-between">
+                    <span>Entropy by Chunks</span>
+                    {renderStatusIcon(status.entropies)}
+                  </li>
+                  <li className="flex items-center justify-between">
+                    <span>File Analysis Report</span>
+                    {renderStatusIcon(status.report)}
+                  </li>
+                  <li className="flex items-center justify-between">
+                    <span>String Extraction</span>
+                    {renderStatusIcon(status.strings)}
+                  </li>
+                  <li className="flex items-center justify-between">
+                    <span>IP Extraction</span>
+                    {renderStatusIcon(status.ips)}
+                  </li>
+                  <li className="flex items-center justify-between">
+                    <span>URL Extraction</span>
+                    {renderStatusIcon(status.urls)}
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
           )}
 
           {heuristics.length > 0 && <Heuristics heuristics={heuristics} />}
@@ -405,32 +415,35 @@ const HomePage = () => {
           {report && report.items && (
             <>
               {isEncrypted === true && (
-                <div className="w-full bg-red-100 rounded-lg p-4 border border-red-300">
-                  <h3 className="text-lg font-semibold mb-3">Warning</h3>
-                  <p>
-                    This file contain encrypted data. Provide a password to
-                    decrypt it.
-                  </p>
-                  <div className="flex flex-row items-center justify-between">
-                    <input
-                      type="password"
-                      className="w-full border border-gray-300 rounded px-4 py-2 mt-4 mr-2"
-                      placeholder="Password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-
-                    <button
-                      className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg"
-                      onClick={() => {
-                        handleFileChange(file, password);
-                        setPassword("");
-                      }}
-                    >
-                      Decrypt
-                    </button>
-                  </div>
-                </div>
+                <Card className="w-full border-destructive/50 bg-destructive/10">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-destructive">Warning</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-foreground">
+                      This file contain encrypted data. Provide a password to
+                      decrypt it.
+                    </p>
+                    <div className="flex flex-row items-center gap-2 mt-4">
+                      <input
+                        type="password"
+                        className="flex-1 border border-input rounded-md px-3 py-2 bg-background focus:outline-none focus:ring-2 focus:ring-ring"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                      <button
+                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90 px-4 py-2 rounded-md font-medium text-sm transition-colors"
+                        onClick={() => {
+                          handleFileChange(file, password);
+                          setPassword("");
+                        }}
+                      >
+                        Decrypt
+                      </button>
+                    </div>
+                  </CardContent>
+                </Card>
               )}
 
               <FolderTree
@@ -440,7 +453,13 @@ const HomePage = () => {
               />
             </>
           )}
-          <Tabs tabs={tabs} />
+          {tabs.length > 0 && (
+            <Card className="w-full">
+              <CardContent className="p-4">
+                <Tabs tabs={tabs} />
+              </CardContent>
+            </Card>
+          )}
 
           {file &&
             contentType &&
