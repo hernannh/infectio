@@ -24,6 +24,12 @@ RUN cd web && npm run build
 # Stage 3: runtime
 FROM nginx:alpine AS runtime
 
+LABEL maintainer="Hernán Herrera <hernannh@gmail.com>"
+LABEL org.opencontainers.image.title="infectio"
+LABEL org.opencontainers.image.description="Modern, offline static malware analysis tool built with WebAssembly — actively maintained fork of filippofinke/infectio"
+LABEL org.opencontainers.image.source="https://github.com/hernannh/infectio"
+LABEL org.opencontainers.image.licenses="MIT"
+
 COPY --from=web-builder /build/web/dist /usr/share/nginx/html
 COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 

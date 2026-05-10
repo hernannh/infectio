@@ -18,15 +18,21 @@
     "threat-intelligence"
   ],
   "author": "Filippo Finke",
+  "contributors": [
+    {
+      "name": "Hernán Herrera",
+      "email": "hernannh@gmail.com"
+    }
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/filippofinke/infectio.git"
+    "url": "https://github.com/hernannh/infectio.git"
   },
   "bugs": {
-    "url": "https://github.com/filippofinke/infectio/issues"
+    "url": "https://github.com/hernannh/infectio/issues"
   },
-  "homepage": "https://github.com/filippofinke/infectio#readme",
+  "homepage": "https://github.com/hernannh/infectio#readme",
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.4",
