@@ -21,6 +21,7 @@ import { FaSpinner, FaUpload } from "react-icons/fa";
 import Heuristics from "../components/Heuristics";
 import Modal from "../components/Modal";
 import ExportButton from "../components/ExportButton";
+import ThemeToggle from "../components/ThemeToggle";
 import {
   Card,
   CardContent,
@@ -342,9 +343,14 @@ const HomePage = () => {
                     }
                   }}
                 />
+                <ThemeToggle />
               </div>
             </div>
           </header>
+        )}
+
+        {files.length === 0 && (
+          <ThemeToggle className="fixed top-4 right-4 z-40 shadow-sm" />
         )}
 
         <main className="container mx-auto flex w-full flex-col items-center gap-6 px-4 py-8">

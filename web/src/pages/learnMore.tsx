@@ -3,6 +3,7 @@ import Logo from "../components/Logo";
 import Accordion from "@/components/Accordion";
 import { NavLink } from "react-router";
 import { FaArrowLeft, FaGithub } from "react-icons/fa";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const faqs = [
   {
@@ -61,6 +62,7 @@ const LearnMorePage = () => {
               <FaArrowLeft size={12} />
               Go back
             </NavLink>
+            <ThemeToggle />
           </div>
         </div>
       </header>

@@ -6,6 +6,7 @@ import {
   GraphNode,
 } from "reagraph";
 import { FaPlus, FaMinus, FaExpand } from "react-icons/fa";
+import { useTheme } from "@/contexts/ThemeProvider";
 
 interface ImportsGraphProps {
   root: string;
@@ -17,24 +18,30 @@ const controlButtonClass =
 
 const ImportsGraph: React.FC<ImportsGraphProps> = ({ root, imports }) => {
   const graphRef = useRef<GraphCanvasRef | null>(null);
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+
+  const palette = isDark
+    ? { root: "#93c5fd", module: "#60a5fa", imported: "#3b82f6" }
+    : { root: "#155582", module: "#1e79ba", imported: "#1394f0" };
 
   const nodes: GraphNode[] = [];
 
   nodes.push({
     id: "root",
     label: root,
-    fill: "#155582",
+    fill: palette.root,
   });
 
   for (const [module, modImports] of imports) {
     nodes.push({
       id: module,
       label: module,
-      fill: "#1e79ba",
+      fill: palette.module,
     });
     for (const importedModule of modImports) {
       nodes.push({
-        fill: "#1394f0",
+        fill: palette.imported,
         id: importedModule,
         label: importedModule,
       });

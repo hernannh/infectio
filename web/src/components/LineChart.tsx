@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react";
 import Dygraph from "dygraphs";
 import "dygraphs/dist/dygraph.min.css";
 import { FaPlus, FaMinus, FaExpand } from "react-icons/fa";
+import { useTheme } from "@/contexts/ThemeProvider";
 
 interface LineChartProps {
   labels: string[];
@@ -15,6 +16,8 @@ const controlButtonClass =
 const LineChart: React.FC<LineChartProps> = ({ labels, dataPoints, title }) => {
   const graphRef = useRef<HTMLDivElement | null>(null);
   const dygraphRef = useRef<Dygraph | null>(null);
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
 
   useEffect(() => {
     if (graphRef.current) {
@@ -27,7 +30,10 @@ const LineChart: React.FC<LineChartProps> = ({ labels, dataPoints, title }) => {
         xlabel: "Chunk",
         strokeWidth: 1.5,
         fillGraph: true,
-        color: "rgb(59, 130, 246)",
+        color: isDark ? "rgb(96, 165, 250)" : "rgb(59, 130, 246)",
+        axisLineColor: isDark ? "#475569" : "#cbd5e1",
+        gridLineColor: isDark ? "#334155" : "#e2e8f0",
+        ...({ axisLabelColor: isDark ? "#cbd5e1" : "#475569" } as object),
       });
     }
 
@@ -35,7 +41,7 @@ const LineChart: React.FC<LineChartProps> = ({ labels, dataPoints, title }) => {
       dygraphRef.current?.destroy();
       dygraphRef.current = null;
     };
-  }, [labels, dataPoints, title]);
+  }, [labels, dataPoints, title, isDark]);
 
   const handleZoomIn = () => {
     const g = dygraphRef.current;
