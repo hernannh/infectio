@@ -11,15 +11,17 @@ type CodeBlockProps = {
 
 const CodeBlock = ({ language, code }: CodeBlockProps) => {
   return (
-    <Editor
-      height={"50vh"}
-      defaultLanguage={language}
-      defaultValue={code}
-      options={{
-        readOnly: true,
-        wordWrap: "on",
-      }}
-    />
+    <div className="overflow-hidden rounded-md border border-border">
+      <Editor
+        height={"50vh"}
+        defaultLanguage={language}
+        defaultValue={code}
+        options={{
+          readOnly: true,
+          wordWrap: "on",
+        }}
+      />
+    </div>
   );
 };
 

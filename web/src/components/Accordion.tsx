@@ -1,4 +1,5 @@
 import React, { useState, ReactNode } from "react";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 type AccordionProps = {
   title: string;
@@ -14,22 +15,22 @@ const Accordion = ({ title, children, defaultOpen }: AccordionProps) => {
   };
 
   return (
-    <div className="w-full border border-gray-300 bg-gray-200 rounded-lg">
+    <div className="w-full overflow-hidden rounded-lg border border-border bg-card shadow-sm">
       <button
+        type="button"
         onClick={toggleAccordion}
-        className={`w-full text-left p-4 bg-white hover:bg-gray-200 focus:outline-none rounded-t-lg ${
-          isOpen ? "rounded-b-none" : "rounded-b-lg"
-        }`}
+        className="flex w-full items-center justify-between px-4 py-3 text-left transition-colors hover:bg-accent focus:outline-none focus-visible:bg-accent"
+        aria-expanded={isOpen}
       >
-        <div className="flex justify-between items-center">
-          <span className="font-semibold text-lg">{title}</span>
-          <span>{isOpen ? "-" : "+"}</span>
-        </div>
+        <span className="text-base font-semibold text-foreground">{title}</span>
+        {isOpen ? (
+          <FaChevronUp className="text-muted-foreground" size={12} />
+        ) : (
+          <FaChevronDown className="text-muted-foreground" size={12} />
+        )}
       </button>
       {isOpen && (
-        <div className="p-4 bg-white transition-all ease-in-out duration-200 rounded-b-lg">
-          {children}
-        </div>
+        <div className="border-t border-border bg-card p-4">{children}</div>
       )}
     </div>
   );

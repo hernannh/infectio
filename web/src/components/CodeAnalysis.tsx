@@ -41,13 +41,14 @@ ${code}
     <Accordion title="Code Analysis">
       <CodeBlock code={code} language={language} />
       {isReady && (
-        <div className="w-full flex justify-end pt-2">
+        <div className="flex w-full justify-end pt-3">
           <button
-            className="bg-blue-600 rounded-full text-white flex items-center p-3"
+            type="button"
+            className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
             onClick={handleExplainCode}
           >
+            <FaRobot size={16} />
             Explain code
-            <FaRobot size={24} className="ml-2" />
           </button>
         </div>
       )}
