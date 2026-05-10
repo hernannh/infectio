@@ -1,5 +1,6 @@
 import React, { useCallback, useRef, useState } from "react";
 import { FaUpload } from "react-icons/fa";
+import { cn } from "@/lib/utils";
 
 interface FileInputDropZoneProps {
   onFileDrop: (file: File) => void;
@@ -42,11 +43,12 @@ export default function FileInputDropZone({
 
   return (
     <div
-      className={`flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg transition-all duration-300 ease-in-out ${
+      className={cn(
+        "flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed bg-card transition-all duration-300 ease-in-out",
         isDragging
-          ? "border-blue-500 bg-blue-50"
-          : "border-gray-300 hover:border-blue-500 hover:bg-gray-50"
-      }`}
+          ? "border-primary bg-accent"
+          : "border-border hover:border-primary hover:bg-accent/40"
+      )}
       onDrop={handleDrop}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
@@ -60,17 +62,18 @@ export default function FileInputDropZone({
       />
       <div className="flex flex-col items-center justify-center space-y-4">
         <div
-          className={`p-4 rounded-full bg-blue-100 transition-all duration-300 ease-in-out ${
+          className={cn(
+            "rounded-full bg-primary/10 p-4 transition-transform duration-300 ease-in-out",
             isDragging ? "scale-110" : "scale-100"
-          }`}
+          )}
         >
-          <FaUpload className="text-blue-500" size={32} strokeWidth={1.5} />
+          <FaUpload className="text-primary" size={32} strokeWidth={1.5} />
         </div>
         <div className="text-center">
-          <p className="text-lg font-semibold text-gray-700">
+          <p className="text-lg font-semibold text-foreground">
             {isDragging ? "Drop your file here" : "Drag & Drop your file here"}
           </p>
-          <p className="text-sm text-gray-500 mt-1">or click to browse</p>
+          <p className="mt-1 text-sm text-muted-foreground">or click to browse</p>
         </div>
       </div>
     </div>

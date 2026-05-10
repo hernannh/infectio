@@ -63,6 +63,7 @@
     "@mlc-ai/web-llm": "^0.2.72",
     "@monaco-editor/react": "^4.7.0",
     "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-dropdown-menu": "^2.1.16",
     "@radix-ui/react-tabs": "^1.1.13",
     "autoprefixer": "^10.4.20",
     "chart.js": "^4.4.4",

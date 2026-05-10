@@ -8,7 +8,7 @@ export default function Logo() {
         src="/logo.png"
         alt="Infectio logo"
       />
-      <span className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-blue-400">
+      <span className="text-4xl font-bold tracking-tight text-foreground">
         Infectio
       </span>
     </div>

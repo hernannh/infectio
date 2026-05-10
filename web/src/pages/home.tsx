@@ -331,9 +331,11 @@ const HomePage = () => {
                   />
                 )}
                 <button
-                  className="flex items-center space-x-2 text-blue-500"
+                  type="button"
+                  className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                   onClick={() => document.getElementById("file-input")?.click()}
                 >
+                  <FaUpload size={14} />
                   <span>Scan another file</span>
                 </button>
                 <input

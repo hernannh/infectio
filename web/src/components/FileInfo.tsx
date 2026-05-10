@@ -9,25 +9,29 @@ interface FileInfoProps {
 
 const FileInfo: React.FC<FileInfoProps> = ({ file, onCancel }) => {
   return (
-    <div className="flex items-center border border-gray-300 rounded-lg p-4 w-full justify-between bg-white">
-      <div className="flex items-center">
-        <div className="text-4xl p-4 bg-gray-200 rounded-lg">
+    <div className="flex w-full items-center justify-between rounded-lg border border-border bg-card p-4 shadow-sm">
+      <div className="flex items-center gap-3">
+        <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-muted text-3xl text-muted-foreground">
           {getFileIcon(file)}
         </div>
 
-        <div className="flex flex-col ml-2">
-          <span className="text-lg font-semibold text-gray-700">
+        <div className="flex flex-col">
+          <span className="text-lg font-semibold text-foreground">
             {file.name}
           </span>
-          <span className="text-sm text-gray-500">
-            {formatFileSize(file.size)} -{" "}
+          <span className="text-sm text-muted-foreground">
+            {formatFileSize(file.size)} ·{" "}
             {new Date(file.lastModified).toLocaleString()}
           </span>
         </div>
       </div>
 
-      <button onClick={onCancel} className="text-gray-500 hover:text-red-500">
-        <FaTimes className="text-2xl" />
+      <button
+        onClick={onCancel}
+        aria-label="Close file"
+        className="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
+      >
+        <FaTimes className="text-xl" />
       </button>
     </div>
   );
