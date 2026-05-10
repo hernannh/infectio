@@ -296,25 +296,19 @@ const HomePage = () => {
       )}
 
       <div
-        className={`flex justify-center bg-gray-100 transition-transform duration-500`}
+        className="flex min-h-screen flex-col bg-background transition-transform duration-500"
         style={{ transform: `translateY(${translateY}px)` }}
       >
-        <div className="container mx-auto p-4 flex flex-col items-center space-y-4">
-          <div
-            className={
-              files.length > 0
-                ? "flex items-center justify-between w-full space-x-4"
-                : ""
-            }
-          >
-            <Logo />
-            {files.length > 0 && (
-              <div className="flex items-center space-x-4">
+        {files.length > 0 && (
+          <header className="sticky top-0 z-30 w-full border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80">
+            <div className="container mx-auto flex h-16 items-center justify-between px-4">
+              <Logo variant="compact" />
+              <div className="flex items-center gap-3">
                 {files.length > 1 && (
                   <select
                     value={selectedFile}
                     onChange={(e) => setSelectedFile(Number(e.target.value))}
-                    className="border border-gray-300 rounded px-2 py-1"
+                    className="rounded-md border border-input bg-background px-2 py-1 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                   >
                     {files.map((file, index) => (
                       <option key={index} value={index}>
@@ -349,8 +343,19 @@ const HomePage = () => {
                   }}
                 />
               </div>
-            )}
-          </div>
+            </div>
+          </header>
+        )}
+
+        <main className="container mx-auto flex w-full flex-col items-center gap-6 px-4 py-8">
+          {files.length === 0 && (
+            <div className="flex flex-col items-center gap-2 py-8">
+              <Logo variant="hero" />
+              <p className="text-sm text-muted-foreground">
+                Offline static malware analysis in your browser
+              </p>
+            </div>
+          )}
 
           {!file && (
             <>
@@ -481,7 +486,7 @@ const HomePage = () => {
               dataPoints={entropies}
             />
           )}
-        </div>
+        </main>
       </div>
     </>
   );

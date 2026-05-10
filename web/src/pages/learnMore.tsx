@@ -32,54 +32,57 @@ const faqs = [
   {
     question: "Where can I find the source code?",
     answer:
-      "The project is open source and available on GitHub. You can find the source code, contribute, and report issues at: https://github.com/filippofinke/infectio",
+      "The project is open source and available on GitHub. You can find the source code, contribute, and report issues at: https://github.com/hernannh/infectio",
     open: false,
   },
 ];
 
 const LearnMorePage = () => {
   return (
-    <div className="flex flex-col h-screen max-w-4xl mx-auto p-6">
-      <div className="flex items-center mb-8 justify-between">
-        <Logo />
-        <div className="flex items-center space-x-4">
-          <a
-            href="https://github.com/hernannh/infectio"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-700 hover:text-blue-500 transition-colors"
-            title="View on GitHub"
-          >
-            <FaGithub size={24} />
-          </a>
-          <NavLink
-            to="/"
-            className="text-blue-500 hover:underline flex items-center"
-          >
-            <FaArrowLeft className="inline-block mr-1" />
-            Go back
-          </NavLink>
+    <div className="flex min-h-screen flex-col bg-background">
+      <header className="sticky top-0 z-30 w-full border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4">
+          <Logo />
+          <div className="flex items-center gap-3">
+            <a
+              href="https://github.com/hernannh/infectio"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              title="View on GitHub"
+              aria-label="View on GitHub"
+            >
+              <FaGithub size={20} />
+            </a>
+            <NavLink
+              to="/"
+              className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+            >
+              <FaArrowLeft size={12} />
+              Go back
+            </NavLink>
+          </div>
         </div>
-      </div>
+      </header>
 
-      <p className="mb-6">
-        This application empowers users with advanced tools for file analysis,
-        focusing on identifying potential threats through static malware
-        analysis. Learn how it works and discover its key features below.
-      </p>
+      <main className="container mx-auto flex w-full flex-1 flex-col gap-6 px-4 py-8 max-w-4xl">
+        <p className="text-foreground">
+          This application empowers users with advanced tools for file analysis,
+          focusing on identifying potential threats through static malware
+          analysis. Learn how it works and discover its key features below.
+        </p>
 
-      <section className="flex flex-col flex-grow overflow-hidden">
-        <h2 className="text-2xl font-semibold mb-4">FAQs</h2>
-        <div className="overflow-y-auto flex-grow">
-          <div className="space-y-4">
+        <section className="flex flex-col">
+          <h2 className="mb-4 text-2xl font-semibold text-foreground">FAQs</h2>
+          <div className="space-y-3">
             {faqs.map((faq, index) => (
               <Accordion key={index} title={faq.question} defaultOpen={false}>
-                <p className="mt-2 text-gray-600">{faq.answer}</p>
+                <p className="mt-2 text-sm text-muted-foreground">{faq.answer}</p>
               </Accordion>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
+      </main>
     </div>
   );
 };

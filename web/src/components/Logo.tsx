@@ -1,14 +1,28 @@
 import React from "react";
+import { cn } from "@/lib/utils";
 
-export default function Logo() {
+interface LogoProps {
+  variant?: "compact" | "hero";
+}
+
+export default function Logo({ variant = "compact" }: LogoProps) {
+  const isHero = variant === "hero";
   return (
-    <div className="flex items-center space-x-2">
+    <div className={cn("flex items-center", isHero ? "gap-4" : "gap-2")}>
       <img
-        className="w-20 drop-shadow-xl"
+        className={cn(
+          "drop-shadow",
+          isHero ? "w-24" : "w-12"
+        )}
         src="/logo.png"
         alt="Infectio logo"
       />
-      <span className="text-4xl font-bold tracking-tight text-foreground">
+      <span
+        className={cn(
+          "font-bold tracking-tight text-foreground",
+          isHero ? "text-5xl" : "text-2xl"
+        )}
+      >
         Infectio
       </span>
     </div>
