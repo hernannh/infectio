@@ -45,67 +45,67 @@ export const getFileIcon = (file: File) => {
 
   switch (mimeType) {
     case "application/pdf":
-      return <FaFilePdf className="text-gray-400" />;
+      return <FaFilePdf className="text-muted-foreground" />;
     case "application/msword":
     case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-      return <FaFileWord className="text-gray-400" />;
+      return <FaFileWord className="text-muted-foreground" />;
     case "application/vnd.ms-excel":
     case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-      return <FaFileExcel className="text-gray-400" />;
+      return <FaFileExcel className="text-muted-foreground" />;
     case "application/vnd.ms-powerpoint":
     case "application/vnd.openxmlformats-officedocument.presentationml.presentation":
-      return <FaFilePowerpoint className="text-gray-400" />;
+      return <FaFilePowerpoint className="text-muted-foreground" />;
     case "application/zip":
     case "application/x-7z-compressed":
     case "application/x-rar-compressed":
     case "application/x-tar":
-      return <FaFileArchive className="text-gray-400" />;
+      return <FaFileArchive className="text-muted-foreground" />;
     case "text/csv":
-      return <FaFileCsv className="text-gray-400" />;
+      return <FaFileCsv className="text-muted-foreground" />;
     case "text/plain":
     case "text/html":
     case "application/javascript":
     case "application/json":
     case "text/xml":
-      return <FaFileCode className="text-gray-400" />;
+      return <FaFileCode className="text-muted-foreground" />;
     case "image/jpeg":
     case "image/png":
     case "image/gif":
     case "image/svg+xml":
-      return <FaFileImage className="text-gray-400" />;
+      return <FaFileImage className="text-muted-foreground" />;
     case "video/mp4":
     case "video/x-matroska":
     case "video/webm":
     case "video/quicktime":
-      return <FaFileVideo className="text-gray-400" />;
+      return <FaFileVideo className="text-muted-foreground" />;
     case "audio/mpeg":
     case "audio/wav":
     case "audio/ogg":
-      return <FaFileAudio className="text-gray-400" />;
+      return <FaFileAudio className="text-muted-foreground" />;
     case "application/vnd.openxmlformats-officedocument.spreadsheetml.template":
-      return <FaFileExport className="text-gray-400" />;
+      return <FaFileExport className="text-muted-foreground" />;
     case "application/vnd.openxmlformats-officedocument.presentationml.template":
-      return <FaFileImport className="text-gray-400" />;
+      return <FaFileImport className="text-muted-foreground" />;
     case "application/vnd.ms-excel.sheet.macroenabled.12":
-      return <FaFileContract className="text-gray-400" />;
+      return <FaFileContract className="text-muted-foreground" />;
     case "application/vnd.openxmlformats-officedocument.wordprocessingml.template":
-      return <FaFileSignature className="text-gray-400" />;
+      return <FaFileSignature className="text-muted-foreground" />;
     case "application/vnd.openxmlformats-officedocument.presentationml.slideshow":
-      return <FaFilePrescription className="text-gray-400" />;
+      return <FaFilePrescription className="text-muted-foreground" />;
     case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-      return <FaFileInvoice className="text-gray-400" />;
+      return <FaFileInvoice className="text-muted-foreground" />;
     case "application/vnd.ms-excel.addin.macroenabled.12":
-      return <FaFileInvoiceDollar className="text-gray-400" />;
+      return <FaFileInvoiceDollar className="text-muted-foreground" />;
     case "application/x-msdownload":
-      return <FaFileDownload className="text-gray-400" />;
+      return <FaFileDownload className="text-muted-foreground" />;
     case "application/vnd.oasis.opendocument.spreadsheet":
-      return <FaFileMedical className="text-gray-400" />;
+      return <FaFileMedical className="text-muted-foreground" />;
     case "application/vnd.oasis.opendocument.presentation":
-      return <FaFileMedicalAlt className="text-gray-400" />;
+      return <FaFileMedicalAlt className="text-muted-foreground" />;
     case "application/vnd.oasis.opendocument.text":
-      return <FaFileUpload className="text-gray-400" />;
+      return <FaFileUpload className="text-muted-foreground" />;
     default:
-      return <FaFileAlt className="text-gray-400" />;
+      return <FaFileAlt className="text-muted-foreground" />;
   }
 };
 
@@ -115,15 +115,15 @@ export const renderStatusIcon = (status: TaskStatus) => {
   }
 
   if (status === TaskStatus.Pending) {
-    return <FaSpinner className="text-blue-500 animate-spin" />;
+    return <FaSpinner className="text-primary animate-spin" />;
   }
 
   if (status === TaskStatus.Completed) {
-    return <FaCheckCircle className="text-green-500" />;
+    return <FaCheckCircle className="text-emerald-500" />;
   }
 
   if (status === TaskStatus.Failed) {
-    return <FaTimesCircle className="text-red-500" />;
+    return <FaTimesCircle className="text-destructive" />;
   }
 };
 
@@ -159,9 +159,9 @@ export const renderSeverity = (severity: Severity) => {
   };
 
   return (
-    <div className="flex items-center">
-      <span className={`w-3 h-3 rounded-full ${getColor()} mr-2`}></span>
-      <span>{getText()}</span>
+    <div className="inline-flex items-center gap-2">
+      <span className={`h-2 w-2 rounded-full ${getColor()}`} aria-hidden />
+      <span className="text-sm font-medium text-foreground">{getText()}</span>
     </div>
   );
 };
