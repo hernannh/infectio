@@ -72,7 +72,8 @@ target/
 *.pdb
 
 # Cargo
-Cargo.lock
+# Cargo.lock is tracked: this crate produces a final WASM bundle (binary, not
+# a library), so committing the lockfile gives reproducible builds in CI/Docker.
 **/*.rs.bk
 
 # ===========================
