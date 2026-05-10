@@ -74,23 +74,28 @@ const Chat = () => {
 
   return (
     <div
-      className={`fixed bottom-2 right-2 transition-all ${
+      className={`fixed bottom-3 right-3 transition-all ${
         showChat ? "z-50" : "z-10"
       }`}
     >
       {!showChat && (
         <button
           onClick={toggleChat}
-          className="bg-blue-600 text-white p-3 rounded-full shadow-lg flex items-center justify-center hover:bg-blue-700"
+          className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+          aria-label="Open Infectio AI chat"
         >
           {!enableLLM ? (
             <FaComments size={20} />
           ) : isReady ? (
             <FaComments size={20} />
           ) : (
-            <div className="flex items-center space-x-2">
-              {progress && <span>{(progress.progress * 100).toFixed()}%</span>}
-              <FaSpinner className="animate-spin" size={20} />
+            <div className="flex items-center space-x-1.5 px-2">
+              {progress && (
+                <span className="text-xs font-medium">
+                  {(progress.progress * 100).toFixed()}%
+                </span>
+              )}
+              <FaSpinner className="animate-spin" size={16} />
             </div>
           )}
         </button>
@@ -99,26 +104,29 @@ const Chat = () => {
       {showChat && (
         <div
           ref={chatRef}
-          className="bg-white shadow-lg rounded-lg border border-gray-300 mt-2 flex flex-col"
+          className="mt-2 flex flex-col overflow-hidden rounded-lg border border-border bg-card shadow-xl"
           style={{ width: 400, maxHeight: "80vh" }}
         >
-          <header className="bg-blue-600 text-white p-4 flex items-center justify-between">
-            <span className="text-lg font-semibold">Infectio AI</span>
+          <header className="flex items-center justify-between border-b border-border bg-card px-4 py-3">
+            <span className="text-sm font-semibold text-foreground">
+              Infectio AI
+            </span>
             <button
               onClick={toggleChat}
-              className="text-white hover:text-gray-200 focus:outline-none"
+              className="inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+              aria-label="Close chat"
             >
-              <FaTimes size={20} />
+              <FaTimes size={16} />
             </button>
           </header>
 
           {!enableLLM ? (
-            <div className="flex-1 p-6 flex flex-col items-center justify-center text-center">
-              <FaComments size={48} className="text-blue-500 mb-4" />
-              <h3 className="text-lg font-semibold mb-2">
+            <div className="flex flex-1 flex-col items-center justify-center p-6 text-center">
+              <FaComments size={48} className="mb-4 text-primary" />
+              <h3 className="mb-2 text-lg font-semibold text-foreground">
                 Enable AI Assistant
               </h3>
-              <p className="text-gray-600 mb-4">
+              <p className="mb-4 text-sm text-muted-foreground">
                 The AI assistant can help you with malware analysis questions.
                 It requires downloading a ~1.5GB language model that runs
                 locally in your browser.
@@ -127,29 +135,26 @@ const Chat = () => {
                 onClick={() => {
                   initializeLLM();
                 }}
-                className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 focus:outline-none"
+                className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
               >
                 Enable AI Assistant
               </button>
             </div>
           ) : !isReady ? (
-            <div className="flex-1 p-6 flex flex-col items-center justify-center text-center">
-              <FaSpinner
-                className="animate-spin text-blue-500 mb-4"
-                size={48}
-              />
-              <h3 className="text-lg font-semibold mb-2">
+            <div className="flex flex-1 flex-col items-center justify-center p-6 text-center">
+              <FaSpinner className="mb-4 animate-spin text-primary" size={48} />
+              <h3 className="mb-2 text-lg font-semibold text-foreground">
                 Loading AI Model...
               </h3>
               {progress && (
                 <div className="w-full max-w-xs">
-                  <div className="bg-gray-200 rounded-full h-2 mb-2">
+                  <div className="mb-2 h-2 rounded-full bg-muted">
                     <div
-                      className="bg-blue-600 h-2 rounded-full transition-all"
+                      className="h-2 rounded-full bg-primary transition-all"
                       style={{ width: `${progress.progress * 100}%` }}
                     />
                   </div>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-xs text-muted-foreground">
                     {(progress.progress * 100).toFixed(0)}% - {progress.text}
                   </p>
                 </div>
@@ -157,7 +162,7 @@ const Chat = () => {
             </div>
           ) : (
             <>
-              <div className="flex-1 p-4 overflow-y-auto">
+              <div className="flex-1 space-y-2 overflow-y-auto p-4">
                 {messages.map((msg, index) => {
                   if (msg.role === "system") {
                     return null;
@@ -168,13 +173,13 @@ const Chat = () => {
                       key={index}
                       className={`flex ${
                         msg.role === "user" ? "justify-end" : "justify-start"
-                      } mb-2`}
+                      }`}
                     >
                       <div
-                        className={`rounded-lg px-4 py-2 max-w-xs break-words ${
+                        className={`max-w-xs break-words rounded-lg px-3 py-2 text-sm ${
                           msg.role === "user"
-                            ? "bg-blue-500 text-white"
-                            : "bg-gray-300 text-gray-800"
+                            ? "bg-primary text-primary-foreground"
+                            : "bg-muted text-foreground"
                         }`}
                       >
                         <ReactMarkdown>{msg.content}</ReactMarkdown>
@@ -187,12 +192,12 @@ const Chat = () => {
 
               <form
                 onSubmit={handleSubmit}
-                className="p-4 bg-white flex space-x-2"
+                className="flex gap-2 border-t border-border bg-card p-3"
               >
                 <input
                   type="text"
                   ref={inputRef}
-                  className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                   placeholder="Type your message..."
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
@@ -200,10 +205,9 @@ const Chat = () => {
                 />
                 <button
                   type="submit"
-                  className={`bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none ${
-                    isLoading ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
+                  className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-primary-foreground transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   disabled={isLoading}
+                  aria-label="Send message"
                 >
                   {isLoading ? (
                     <FaSpinner className="animate-spin" />
