@@ -5,8 +5,15 @@ import {
   GraphEdge,
   GraphNode,
 } from "reagraph";
-import { FaPlus, FaMinus, FaExpand } from "react-icons/fa";
+import { FaPlus, FaMinus, FaExpand, FaDownload } from "react-icons/fa";
 import { useTheme } from "@/contexts/ThemeProvider";
+import { downloadBlob, sanitizeFileName } from "@/utils/download";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface ImportsGraphProps {
   root: string;
@@ -66,6 +73,28 @@ const ImportsGraph: React.FC<ImportsGraphProps> = ({ root, imports }) => {
     }
   }
 
+  const baseName = sanitizeFileName(root || "imports-graph");
+
+  const handleExportJSON = () => {
+    const payload = {
+      root,
+      nodes: nodes.map((n) => ({ id: n.id, label: n.label })),
+      edges: edges.map((e) => ({ id: e.id, source: e.source, target: e.target })),
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {
+      type: "application/json",
+    });
+    downloadBlob(blob, `${baseName}-imports-graph.json`);
+  };
+
+  const handleExportPNG = async () => {
+    const dataUrl = graphRef.current?.exportCanvas();
+    if (!dataUrl) return;
+    const res = await fetch(dataUrl);
+    const blob = await res.blob();
+    downloadBlob(blob, `${baseName}-imports-graph.png`);
+  };
+
   return (
     <div
       style={{ height: "500px", position: "relative" }}
@@ -105,6 +134,24 @@ const ImportsGraph: React.FC<ImportsGraphProps> = ({ root, imports }) => {
         >
           <FaExpand size={12} />
         </button>
+        <div className="my-0.5 h-px bg-border" aria-hidden />
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            className={controlButtonClass}
+            title="Export graph"
+            aria-label="Export graph"
+          >
+            <FaDownload size={12} />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" sideOffset={6}>
+            <DropdownMenuItem onSelect={handleExportJSON}>
+              Nodes &amp; edges (JSON)
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={handleExportPNG}>
+              Canvas (PNG)
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   );

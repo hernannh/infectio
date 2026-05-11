@@ -1,8 +1,9 @@
 import React, { useRef, useEffect } from "react";
 import Dygraph from "dygraphs";
 import "dygraphs/dist/dygraph.min.css";
-import { FaPlus, FaMinus, FaExpand } from "react-icons/fa";
+import { FaPlus, FaMinus, FaExpand, FaDownload } from "react-icons/fa";
 import { useTheme } from "@/contexts/ThemeProvider";
+import { downloadBlob, sanitizeFileName } from "@/utils/download";
 
 interface LineChartProps {
   labels: string[];
@@ -69,6 +70,16 @@ const LineChart: React.FC<LineChartProps> = ({ labels, dataPoints, title }) => {
     dygraphRef.current?.resetZoom();
   };
 
+  const handleExportPNG = () => {
+    const canvas = graphRef.current?.querySelector("canvas");
+    if (!canvas) return;
+    canvas.toBlob((blob) => {
+      if (!blob) return;
+      const name = sanitizeFileName(title || "entropy") + ".png";
+      downloadBlob(blob, name);
+    });
+  };
+
   return (
     <div className="w-full overflow-hidden rounded-lg border border-border bg-card p-4 shadow-sm">
       <div className="relative">
@@ -100,6 +111,16 @@ const LineChart: React.FC<LineChartProps> = ({ labels, dataPoints, title }) => {
             aria-label="Reset zoom"
           >
             <FaExpand size={12} />
+          </button>
+          <div className="my-0.5 h-px bg-border" aria-hidden />
+          <button
+            type="button"
+            className={controlButtonClass}
+            onClick={handleExportPNG}
+            title="Export as PNG"
+            aria-label="Export chart as PNG"
+          >
+            <FaDownload size={12} />
           </button>
         </div>
       </div>
