@@ -21,7 +21,7 @@
 
 > **Fork notice:** This repository is a fork of [filippofinke/infectio](https://github.com/filippofinke/infectio) by Filippo Finke. Upstream development appears inactive (last commit October 2025), so this fork continues maintenance and adds further improvements. All credit for the original design and implementation goes to the original author. Licensed under MIT.
 >
-> **Fork additions** (since the fork was branched in May 2026): React 18 → 19.1 migration; magika 0.2 → 1.0; UI redesign on a Slate palette with shadcn/ui primitives and Radix UI; dark / light / system theme toggle; per-file structured export (JSON + CSV ZIP) and chart exports (entropy PNG, imports-graph JSON + PNG); zoom controls on the entropy and imports graphs; multi-stage Docker image (Rust → WASM → web → nginx); npm audit clean (0 vulnerabilities at time of writing). See `git log` for full history.
+> **Fork additions** (since the fork was branched in May 2026): React 18 → 19.1 migration; magika 0.2 → 1.0; UI redesign on a Slate palette with shadcn/ui primitives and Radix UI; dark / light / system theme toggle; per-file structured export (JSON + CSV ZIP), chart exports (entropy PNG, imports-graph JSON + PNG), self-contained HTML report (embedded charts) and multi-file batch export to ZIP; zoom controls on the entropy and imports graphs; multi-stage Docker image (Rust → WASM → web → nginx); npm audit clean (0 vulnerabilities at time of writing). See `git log` for full history.
 
 ---
 
@@ -78,6 +78,8 @@
 
 ### **Reports & Export** _(fork addition)_
 
+- **Self-contained HTML report**: single-file, no external CSS/JS, fully archivable / emailable. Includes a badge header (size, content type, counts), heuristics, metadata, embedded chart images (entropy line chart + imports graph as base64 PNGs), imports table, and the strings / IPs / URLs lists. Print-friendly stylesheet included.
+- **Multi-file batch export**: when more than one file is loaded in the session, "All findings (N files, ZIP)" packages one HTML report per file into a single ZIP. The currently-selected file's HTML embeds its chart images; the others include all tabular data.
 - **Per-file structured export**: download the full analysis as a single JSON report or as a ZIP of CSV tables (`strings.csv`, `ips.csv`, `urls.csv`, `imports.csv`, `heuristics.csv`, `metadata.csv`)
 - **Chart exports**: entropy line chart as PNG, imports graph as JSON (nodes + edges) or PNG screenshot
 - **Zoom controls** on the entropy chart and the imports graph (`+` / `−` / reset), in addition to mouse-wheel zoom
