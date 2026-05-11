@@ -5,6 +5,7 @@ import "react-virtualized/styles.css";
 import "./index.css";
 import { LLMProvider } from "./contexts/useLLM";
 import { ThemeProvider } from "./contexts/ThemeProvider";
+import { ChartExportProvider } from "./contexts/ChartExportProvider";
 import { BrowserRouter, Route, Routes } from "react-router";
 import HomePage from "./pages/home";
 import LearnMorePage from "./pages/learnMore";
@@ -16,15 +17,17 @@ const root = createRoot(domNode);
 init().then(() => {
   root.render(
     <ThemeProvider>
-      <LLMProvider>
-        <Chat />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/learn-more" element={<LearnMorePage />} />
-          </Routes>
-        </BrowserRouter>
-      </LLMProvider>
+      <ChartExportProvider>
+        <LLMProvider>
+          <Chat />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/learn-more" element={<LearnMorePage />} />
+            </Routes>
+          </BrowserRouter>
+        </LLMProvider>
+      </ChartExportProvider>
     </ThemeProvider>
   );
 });

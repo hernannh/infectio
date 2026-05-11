@@ -3,6 +3,7 @@ import Dygraph from "dygraphs";
 import "dygraphs/dist/dygraph.min.css";
 import { FaPlus, FaMinus, FaExpand, FaDownload } from "react-icons/fa";
 import { useTheme } from "@/contexts/ThemeProvider";
+import { useChartExport } from "@/contexts/ChartExportProvider";
 import { downloadBlob, sanitizeFileName } from "@/utils/download";
 
 interface LineChartProps {
@@ -18,7 +19,20 @@ const LineChart: React.FC<LineChartProps> = ({ labels, dataPoints, title }) => {
   const graphRef = useRef<HTMLDivElement | null>(null);
   const dygraphRef = useRef<Dygraph | null>(null);
   const { resolvedTheme } = useTheme();
+  const { register } = useChartExport();
   const isDark = resolvedTheme === "dark";
+
+  useEffect(() => {
+    return register("entropy", () => {
+      const canvas = graphRef.current?.querySelector("canvas");
+      if (!canvas) return null;
+      try {
+        return canvas.toDataURL("image/png");
+      } catch {
+        return null;
+      }
+    });
+  }, [register]);
 
   useEffect(() => {
     if (graphRef.current) {

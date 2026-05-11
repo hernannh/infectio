@@ -3,26 +3,49 @@ import { FaDownload, FaChevronDown } from "react-icons/fa";
 import { Report } from "../types/types";
 import { exportReportAsJson } from "../utils/exporters/json";
 import { exportReportAsCsvZip } from "../utils/exporters/csv";
+import { exportReportAsHtml } from "../utils/exporters/html";
+import { exportAllAsHtmlZip } from "../utils/exporters/batch";
+import { useChartExport } from "@/contexts/ChartExportProvider";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 interface ExportButtonProps {
   report: Report;
   fileName: string;
+  files: File[];
+  reports: Report[];
+  selectedIndex: number;
   disabled?: boolean;
 }
 
 const ExportButton: React.FC<ExportButtonProps> = ({
   report,
   fileName,
+  files,
+  reports,
+  selectedIndex,
   disabled = false,
 }) => {
+  const { captureAll } = useChartExport();
+  const hasBatch = files.length > 1;
+
   const handleJson = () => exportReportAsJson(report, fileName);
   const handleCsv = () => exportReportAsCsvZip(report, fileName);
+
+  const handleHtml = async () => {
+    const charts = await captureAll();
+    exportReportAsHtml(report, fileName, charts);
+  };
+
+  const handleBatch = async () => {
+    const charts = await captureAll();
+    await exportAllAsHtmlZip(files, reports, selectedIndex, charts);
+  };
 
   return (
     <DropdownMenu>
@@ -35,12 +58,23 @@ const ExportButton: React.FC<ExportButtonProps> = ({
         <FaChevronDown size={10} />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
+        <DropdownMenuItem onSelect={handleHtml}>
+          HTML report (this file)
+        </DropdownMenuItem>
         <DropdownMenuItem onSelect={handleJson}>
           Full report (JSON)
         </DropdownMenuItem>
         <DropdownMenuItem onSelect={handleCsv}>
           Tables (CSV ZIP)
         </DropdownMenuItem>
+        {hasBatch && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onSelect={handleBatch}>
+              All findings ({files.length} files, ZIP)
+            </DropdownMenuItem>
+          </>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

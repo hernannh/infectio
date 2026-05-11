@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   GraphCanvas,
   GraphCanvasRef,
@@ -7,6 +7,7 @@ import {
 } from "reagraph";
 import { FaPlus, FaMinus, FaExpand, FaDownload } from "react-icons/fa";
 import { useTheme } from "@/contexts/ThemeProvider";
+import { useChartExport } from "@/contexts/ChartExportProvider";
 import { downloadBlob, sanitizeFileName } from "@/utils/download";
 import {
   DropdownMenu,
@@ -26,7 +27,14 @@ const controlButtonClass =
 const ImportsGraph: React.FC<ImportsGraphProps> = ({ root, imports }) => {
   const graphRef = useRef<GraphCanvasRef | null>(null);
   const { resolvedTheme } = useTheme();
+  const { register } = useChartExport();
   const isDark = resolvedTheme === "dark";
+
+  useEffect(() => {
+    return register("imports", () => {
+      return graphRef.current?.exportCanvas() ?? null;
+    });
+  }, [register]);
 
   const palette = isDark
     ? { root: "#93c5fd", module: "#60a5fa", imported: "#3b82f6" }

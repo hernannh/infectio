@@ -322,6 +322,9 @@ const HomePage = () => {
                   <ExportButton
                     report={reports[selectedFile]}
                     fileName={file.name}
+                    files={files}
+                    reports={reports}
+                    selectedIndex={selectedFile}
                     disabled={!analysisComplete}
                   />
                 )}
