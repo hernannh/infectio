@@ -20,6 +20,8 @@
 ---
 
 > **Fork notice:** This repository is a fork of [filippofinke/infectio](https://github.com/filippofinke/infectio) by Filippo Finke. Upstream development appears inactive (last commit October 2025), so this fork continues maintenance and adds further improvements. All credit for the original design and implementation goes to the original author. Licensed under MIT.
+>
+> **Fork additions** (since the fork was branched in May 2026): React 18 → 19.1 migration; magika 0.2 → 1.0; UI redesign on a Slate palette with shadcn/ui primitives and Radix UI; dark / light / system theme toggle; per-file structured export (JSON + CSV ZIP) and chart exports (entropy PNG, imports-graph JSON + PNG); zoom controls on the entropy and imports graphs; multi-stage Docker image (Rust → WASM → web → nginx); npm audit clean (0 vulnerabilities at time of writing). See `git log` for full history.
 
 ---
 
@@ -73,6 +75,17 @@
 - **Natural Language Q&A**: Ask questions about analyzed files in plain English
 - **Contextual Insights**: Get explanations of findings and security implications
 - **Privacy-Preserving**: All AI processing happens locally - no data leaves your browser
+
+### **Reports & Export** _(fork addition)_
+
+- **Per-file structured export**: download the full analysis as a single JSON report or as a ZIP of CSV tables (`strings.csv`, `ips.csv`, `urls.csv`, `imports.csv`, `heuristics.csv`, `metadata.csv`)
+- **Chart exports**: entropy line chart as PNG, imports graph as JSON (nodes + edges) or PNG screenshot
+- **Zoom controls** on the entropy chart and the imports graph (`+` / `−` / reset), in addition to mouse-wheel zoom
+
+### **Interface** _(fork addition)_
+
+- **Dark / light / system theme toggle**: respects the OS preference by default; manual override persisted in `localStorage`
+- **Slate palette built on shadcn/ui and Radix UI**: consistent buttons, cards, dialogs, tabs, dropdown menus, accessible focus rings and keyboard navigation throughout
 
 ## Demo
 
@@ -191,36 +204,62 @@ Infectio is built with a modern, modular architecture designed for performance, 
 
 #### Frontend (Web Application)
 
-- **React 18**: Modern UI framework with hooks
-- **TypeScript**: Type-safe JavaScript
-- **Tailwind CSS**: Utility-first styling
+- **React 19.1**: Modern UI framework with hooks
+- **TypeScript 5.6+**: Type-safe JavaScript
+- **Tailwind CSS 3.4**: Utility-first styling with CSS-variable theme tokens
+- **shadcn/ui + Radix UI**: Accessible component primitives (Dialog, Tabs, DropdownMenu, Card, Alert)
+- **Slate palette + dark / light / system theme toggle**: `prefers-color-scheme` aware, persisted in `localStorage`
 - **Webpack 5**: Module bundler with optimization
 - **Key Libraries**:
   - `@mlc-ai/web-llm`: Browser-based LLM integration
-  - `magika`: ML-based file type identification
-  - `react-router`: Client-side routing
-  - `reagraph`: Interactive graph visualization
-  - `@monaco-editor/react`: Code editor component
-  - `chart.js`: Data visualization and charts
+  - `magika` 1.0: ML-based file type identification (browser-only, optional Node deps stripped via `omit=optional`)
+  - `react-router` 7: Client-side routing
+  - `reagraph` 4.30: Interactive WebGL graph visualization (zoom controls + PNG / JSON export)
+  - `@monaco-editor/react`: Code editor component (theme-aware: `vs` / `vs-dark`)
+  - `dygraphs`: Entropy line chart (zoom controls + PNG export)
+  - `papaparse` + `jszip`: CSV escaping and zipping for the per-file export feature
+  - `lucide-react`: Icon set used by the theme toggle and other UI primitives
 
 ## Installation
 
-### Prerequisites
+### Option A — Run with Docker (no toolchain required)
 
-Ensure you have the following installed:
-
-| Tool          | Version       | Installation                                                      |
-| ------------- | ------------- | ----------------------------------------------------------------- |
-| **Node.js**   | v16+          | [Download](https://nodejs.org/)                                   |
-| **Rust**      | Latest stable | `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \| sh` |
-| **wasm-pack** | Latest        | `cargo install wasm-pack`                                         |
-| **Git**       | Any           | [Download](https://git-scm.com/)                                  |
-
-### Quick Start
+The repo ships a multi-stage Dockerfile that builds the Rust → WebAssembly module, bundles the web application, and serves it from nginx. **No Rust or Node toolchain on the host** — Docker is the only prerequisite.
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/filippofinke/infectio.git
+# 1. Clone the fork
+git clone https://github.com/hernannh/infectio.git
+cd infectio
+
+# 2. Build the image (first build ~3-5 min, subsequent builds cached)
+docker build -t infectio .
+
+# 3. Run it
+docker run --rm -p 8080:80 infectio
+```
+
+Open `http://localhost:8080`. Stop with `Ctrl-C` (the `--rm` flag removes the container on exit).
+
+The image bundles everything client-side (WASM, JS, assets) and serves it via nginx; nothing leaves the browser at runtime.
+
+### Option B — Run from source
+
+Use this if you want to iterate on Rust or web code with hot reload.
+
+#### Prerequisites
+
+| Tool          | Version       | Installation                                                                                   |
+| ------------- | ------------- | ---------------------------------------------------------------------------------------------- |
+| **Node.js**   | v20+ LTS      | [Download](https://nodejs.org/) (required by magika 1.0 / tfjs 4.22 / copy-webpack-plugin 14)  |
+| **Rust**      | Latest stable | `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \| sh`                              |
+| **wasm-pack** | Latest        | `cargo install wasm-pack`                                                                      |
+| **Git**       | Any           | [Download](https://git-scm.com/)                                                               |
+
+#### Quick Start
+
+```bash
+# 1. Clone the fork
+git clone https://github.com/hernannh/infectio.git
 cd infectio
 
 # 2. Build the WebAssembly module
@@ -235,17 +274,6 @@ npm start
 ```
 
 Your browser will open to `http://localhost:8080` automatically.
-
-### Run with Docker
-
-Prefer a single command? The repo ships a multi-stage Dockerfile that builds the WASM module, bundles the web app, and serves it from nginx — no Rust or Node toolchain required on the host.
-
-```bash
-docker build -t infectio .
-docker run --rm -p 8080:80 infectio
-```
-
-Then open `http://localhost:8080`.
 
 ### Development Setup
 
@@ -446,7 +474,7 @@ We welcome contributions! Whether it's a bug report, feature request, or code co
 
 This project is licensed under the MIT License, see the [LICENSE](LICENSE) file for details.
 
-## Author
+## Author (original)
 
 👤 **Filippo Finke**
 
@@ -454,6 +482,15 @@ This project is licensed under the MIT License, see the [LICENSE](LICENSE) file 
 - Twitter: [@filippofinke](https://twitter.com/filippofinke)
 - GitHub: [@filippofinke](https://github.com/filippofinke)
 - LinkedIn: [@filippofinke](https://linkedin.com/in/filippofinke)
+
+## Fork maintainer
+
+👤 **Hernán Herrera**
+
+- GitHub: [@hernannh](https://github.com/hernannh)
+- Repository: [hernannh/infectio](https://github.com/hernannh/infectio)
+
+Open issues and pull requests against the fork; the upstream repository is no longer actively maintained.
 
 ## Future Ideas
 
