@@ -21,7 +21,7 @@
 
 > **Fork notice:** This repository is a fork of [filippofinke/infectio](https://github.com/filippofinke/infectio) by Filippo Finke. Upstream development appears inactive (last commit October 2025), so this fork continues maintenance and adds further improvements. All credit for the original design and implementation goes to the original author. Licensed under MIT.
 >
-> **Fork additions** (since the fork was branched in May 2026): React 18 → 19.1 migration; magika 0.2 → 1.0; UI redesign on a Slate palette with shadcn/ui primitives and Radix UI; dark / light / system theme toggle; per-file structured export (JSON + CSV ZIP), chart exports (entropy PNG, imports-graph JSON + PNG), self-contained HTML report (embedded charts) and multi-file batch export to ZIP; zoom controls on the entropy and imports graphs; multi-stage Docker image (Rust → WASM → web → nginx); npm audit clean (0 vulnerabilities at time of writing). See `git log` for full history.
+> **Fork additions** (since the fork was branched in May 2026): React 18 → 19.2 migration; TypeScript 5 → 6, webpack-cli 5 → 7 and babel-loader 9 → 10 major bumps; magika 0.2 → 1.0; UI redesign on a Slate palette with shadcn/ui primitives and Radix UI; dark / light / system theme toggle; per-file structured export (JSON + CSV ZIP), chart exports (entropy PNG, imports-graph JSON + PNG), self-contained HTML report (embedded charts) and multi-file batch export to ZIP; zoom controls on the entropy and imports graphs; multi-stage Docker image (Rust → WASM → web → nginx); npm + cargo audit clean (0 vulnerabilities at time of writing). See `git log` for full history.
 
 ---
 
@@ -206,12 +206,12 @@ Infectio is built with a modern, modular architecture designed for performance, 
 
 #### Frontend (Web Application)
 
-- **React 19.1**: Modern UI framework with hooks
-- **TypeScript 5.6+**: Type-safe JavaScript
+- **React 19.2**: Modern UI framework with hooks
+- **TypeScript 6.0**: Type-safe JavaScript
 - **Tailwind CSS 3.4**: Utility-first styling with CSS-variable theme tokens
 - **shadcn/ui + Radix UI**: Accessible component primitives (Dialog, Tabs, DropdownMenu, Card, Alert)
 - **Slate palette + dark / light / system theme toggle**: `prefers-color-scheme` aware, persisted in `localStorage`
-- **Webpack 5**: Module bundler with optimization
+- **Webpack 5** (webpack-cli 7, babel-loader 10): Module bundler with optimization
 - **Key Libraries**:
   - `@mlc-ai/web-llm`: Browser-based LLM integration
   - `magika` 1.0: ML-based file type identification (browser-only, optional Node deps stripped via `omit=optional`)
@@ -252,7 +252,7 @@ Use this if you want to iterate on Rust or web code with hot reload.
 
 | Tool          | Version       | Installation                                                                                   |
 | ------------- | ------------- | ---------------------------------------------------------------------------------------------- |
-| **Node.js**   | v20+ LTS      | [Download](https://nodejs.org/) (required by magika 1.0 / tfjs 4.22 / copy-webpack-plugin 14)  |
+| **Node.js**   | v22+ LTS      | [Download](https://nodejs.org/) (required by babel-loader 10 / webpack-cli 7 / magika 1.0)     |
 | **Rust**      | Latest stable | `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \| sh`                              |
 | **wasm-pack** | Latest        | `cargo install wasm-pack`                                                                      |
 | **Git**       | Any           | [Download](https://git-scm.com/)                                                               |
