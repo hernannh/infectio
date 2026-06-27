@@ -14,7 +14,7 @@ pub fn sha1(file_data: &[u8]) -> String {
     hasher.update(file_data);
     let result = hasher.finalize();
 
-    format!("{:x}", result)
+    result.iter().map(|b| format!("{:02x}", b)).collect()
 }
 
 #[wasm_bindgen]
@@ -24,5 +24,5 @@ pub fn sha256(file_data: &[u8]) -> String {
     hasher.update(file_data);
     let result = hasher.finalize();
 
-    format!("{:x}", result)
+    result.iter().map(|b| format!("{:02x}", b)).collect()
 }

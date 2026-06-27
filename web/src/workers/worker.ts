@@ -15,7 +15,7 @@
 
 import { Severity, TaskStatus } from "@/types/types";
 import getContentType from "@/utils/content-types";
-import init, {
+import {
   calculate_entropy,
   analyze_file,
   extract_strings,
@@ -62,7 +62,6 @@ onmessage = async (e: MessageEvent<AnalyzeFileMessage>) => {
   const fileData = new Uint8Array(await file.arrayBuffer());
 
   if (!initialized) {
-    await init();
     magika = await Magika.create();
     initialized = true;
   }
