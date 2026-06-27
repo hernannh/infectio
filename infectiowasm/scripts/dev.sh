@@ -1,1 +1,1 @@
-cargo watch -i .gitignore -i "pkg/*" -s "RUSTFLAGS=--cfg=getrandom_backend=wasm_js wasm-pack build --target bundler"
+cargo watch -i .gitignore -i "pkg/*" -s "RUSTFLAGS=--cfg=getrandom_backend=wasm_js wasm-pack build --target web"
