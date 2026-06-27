@@ -9,7 +9,7 @@ COPY infectiowasm/ ./infectiowasm/
 RUN cd infectiowasm && bash scripts/build.sh
 
 # Stage 2: build the web frontend
-FROM node:22-alpine AS web-builder
+FROM node:24-bookworm AS web-builder
 
 WORKDIR /build
 

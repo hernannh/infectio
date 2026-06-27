@@ -252,7 +252,7 @@ Use this if you want to iterate on Rust or web code with hot reload.
 
 | Tool          | Version       | Installation                                                                                   |
 | ------------- | ------------- | ---------------------------------------------------------------------------------------------- |
-| **Node.js**   | v22+ LTS      | [Download](https://nodejs.org/) (required by babel-loader 10 / webpack-cli 7 / magika 1.0)     |
+| **Node.js**   | v22+ LTS      | [Download](https://nodejs.org/) (Docker build uses Node 24; required by babel-loader 10 / webpack-cli 7 / tailwindcss 4 / magika 1.0)     |
 | **Rust**      | Latest stable | `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \| sh`                              |
 | **wasm-pack** | Latest        | `cargo install wasm-pack`                                                                      |
 | **Git**       | Any           | [Download](https://git-scm.com/)                                                               |
