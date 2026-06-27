@@ -21,7 +21,7 @@
 
 > **Fork notice:** This repository is a fork of [filippofinke/infectio](https://github.com/filippofinke/infectio) by Filippo Finke. Upstream development appears inactive (last commit October 2025), so this fork continues maintenance and adds further improvements. All credit for the original design and implementation goes to the original author. Licensed under MIT.
 >
-> **Fork additions** (since the fork was branched in May 2026): React 18 → 19.2 migration; TypeScript 5 → 6, webpack-cli 5 → 7 and babel-loader 9 → 10 major bumps; magika 0.2 → 1.0; UI redesign on a Slate palette with shadcn/ui primitives and Radix UI; dark / light / system theme toggle; per-file structured export (JSON + CSV ZIP), chart exports (entropy PNG, imports-graph JSON + PNG), self-contained HTML report (embedded charts) and multi-file batch export to ZIP; zoom controls on the entropy and imports graphs; multi-stage Docker image (Rust → WASM → web → nginx); npm + cargo audit clean (0 vulnerabilities at time of writing). See `git log` for full history.
+> **Fork additions** (since the fork was branched in May 2026): React 18 → 19.2 migration; TypeScript 5 → 6, webpack-cli 5 → 7 and babel-loader 9 → 10 major bumps; magika 0.2 → 1.0; UI redesign on a Slate palette with shadcn/ui primitives and Radix UI; dark / light / system theme toggle; per-file structured export (JSON + CSV ZIP), chart exports (entropy PNG, imports-graph JSON + PNG), self-contained HTML report (embedded charts) and multi-file batch export to ZIP; zoom controls on the entropy and imports graphs; multi-stage Docker image (Rust → WASM → web → nginx); tailwindcss 3 → 4 (CSS-first migration), @babel/* 7 → 8, react-router 7 → 8, react-markdown 9 → 10; Rust crates goblin 0.8 → 0.10, elf 0.7 → 0.8, infer 0.16 → 0.19, sha1/sha2 0.10 → 0.11, md5 0.7 → 0.8, zip 2.2 → 8.6; npm + cargo audit clean (0 vulnerabilities at time of writing). See `git log` for full history.
 
 ---
 
@@ -208,15 +208,15 @@ Infectio is built with a modern, modular architecture designed for performance, 
 
 - **React 19.2**: Modern UI framework with hooks
 - **TypeScript 6.0**: Type-safe JavaScript
-- **Tailwind CSS 3.4**: Utility-first styling with CSS-variable theme tokens
+- **Tailwind CSS 4.3**: CSS-first utility styling (`@theme inline` + `tw-animate-css`)
 - **shadcn/ui + Radix UI**: Accessible component primitives (Dialog, Tabs, DropdownMenu, Card, Alert)
 - **Slate palette + dark / light / system theme toggle**: `prefers-color-scheme` aware, persisted in `localStorage`
 - **Webpack 5** (webpack-cli 7, babel-loader 10): Module bundler with optimization
 - **Key Libraries**:
   - `@mlc-ai/web-llm`: Browser-based LLM integration
   - `magika` 1.0: ML-based file type identification (browser-only, optional Node deps stripped via `omit=optional`)
-  - `react-router` 7: Client-side routing
-  - `reagraph` 4.30: Interactive WebGL graph visualization (zoom controls + PNG / JSON export)
+  - `react-router` 8: Client-side routing
+  - `reagraph` 4.32: Interactive WebGL graph visualization (zoom controls + PNG / JSON export)
   - `@monaco-editor/react`: Code editor component (theme-aware: `vs` / `vs-dark`)
   - `dygraphs`: Entropy line chart (zoom controls + PNG export)
   - `papaparse` + `jszip`: CSV escaping and zipping for the per-file export feature
